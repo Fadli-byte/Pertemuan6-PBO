@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Pengguna</title>
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    /* Custom Notification Styling */
+    .notification {
+        display: none;
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #28a745;
+        color: white;
+        border-radius: 5px;
+    }
+</style>
+<body class="container mt-5">
+
+    <h1 class="text-center">Daftar Mahasiswa Sistem Informasi Kelautan</h1>
+    
+    <div class="notification" id="notification">Mahasiswa sukses ditambahkan!</div>
+
+    <table class="table table-bordered mt-4">
+        <thead class="thead-dark">
+            <tr>
+                <th>NO</th>
+                <th>Nama</th>   
+                <th>Email</th>
+                <th>NIM</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% users.forEach(pengguna => { %>
+            <tr>
+                <td><%= pengguna.id %></td>
+                <td><%= pengguna.name %></td>
+                <td><%= pengguna.email %></td>
+                <td><%= pengguna.nim %></td>
+                <td>
+                    <a href="#" class="btn btn-warning btn-sm" onclick="confirmEdit('/edit/<%= pengguna.id %>');">Edit</a>
+                    <a href="#" class="btn btn-danger btn-sm" onclick="confirmDelete('/delete/<%= pengguna.id %>');">Hapus</a> 
+                </td>
+            </tr>
+            <% }) %>
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">Tambah Pengguna Baru</h2>
+    <form action="/add" method="post" class="mt-4" onsubmit="showNotification()">
+        <div class="form-group">
+            <label for="name">Nama:</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" name="email" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="nim">NIM:</label>
+            <input type="text" class="form-control" name="nim" id="nim" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        function confirmDelete(url) {
+            if (confirm('Apakah kamu yakin ingin menghapus data ini?')) {
+                window.location.href = url;
+            }
+        }
+
+        function confirmEdit(url) {
+            if (confirm('Apakah kamu yakin ingin mengedit data ini?')) {
+                window.location.href = url;
+            }
+        }
+
+        function showNotification() {
+            var notification = document.getElementById('notification');
+            notification.style.display = 'block';
+            setTimeout(function() {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
